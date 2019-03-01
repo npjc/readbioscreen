@@ -1,0 +1,4 @@
+^local-only$
+^README\.Rmd$
+^.*\.Rproj$
+^\.Rproj\.user$

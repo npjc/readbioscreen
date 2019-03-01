@@ -1,0 +1,22 @@
+Package: readbioscreen
+Type: Package
+Title: Read, Validate, Simulate and Write Bioscreen Instrument Files
+Version: 0.0.1
+Authors@R: person("Nicolas", "Coutin", , "nicolas.coutin@gmail.com", c("aut", "cre"), comment = c(ORCID = "0000-0001-9336-226X"))
+Maintainer: Nicolas Coutin <nicolas.coutin@gmail.com>
+Description: Read, validate, simulate and write Bioscreen C Growth Curve 
+    Analysis system. The Bioscreen C system uses two, 100 well, honeycomb 
+    microplates per run instead of conventional microplates.
+License: What license is it under?
+URL: https://github.com/npjc/readbioscreen
+BugReports: https://github.com/npjc/readbioscreen/issues
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    r2d3,
+    tibble,
+    ggplot2,
+    dplyr,
+    tidyr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1

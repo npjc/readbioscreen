@@ -1,0 +1,64 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/readbioscreen)](https://cran.r-project.org/package=readbioscreen)
+
+Read, Validate, Simulate and Write Bioscreen Instrument Files.
+
+## Installation
+
+<!-- You can install the released version of bioscreen from [CRAN](https://CRAN.R-project.org) with: -->
+
+``` r
+# install.packages("readbioscreen") # not yet
+remotes::install.github("npjc/readbioscreen")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+## basic example code
+library(readbioscreen)
+path <- "inst/extdata/2014_06_06 Bioscreen growth curves.csv"
+d <- read_bioscreen(path)
+d
+```
+
+
+## About the Bioscreen instrument:
+
+The Bioscreen C Microbiology Reader uses specialized 'honeycomb' plates with 100 wells, each run can contain 2 plates. 
+
+```{r plot, eval=FALSE}
+plot_bioscreen()
+```
+<img src='inst/bioscreen-layout.png'>
+
+More info: [1](http://www.bioscreen.fi/bioscreencmbr.html), [2](http://docs.exdat.com/docs/index-90565.html). Bioscreen has accompanying software: [link](http://www.growthcurvesusa.com/software.html)
+
+
+
+## Test set data
+
+Parser Specification defined by a test set of files:
+
+```{r}
+bioscreen_test_set()
+```
+
+

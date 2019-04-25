@@ -11,6 +11,17 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+# library(tidyverse)
+# library(readbioscreen)
+# files <- list.files('inst/extdata/', full.names = T)
+# 
+# read_bioscreen(files[1])
+# 
+# file <- files[7]
+# read_bioscreen(file)
+# read_bioscreen(file, all_fields = T)
+# read_bioscreen(file, all_fields = T) %>% distinct(time, runtime) %>% tail()
 ```
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -34,9 +45,13 @@ This is a basic example which shows you how to solve a common problem:
 ```{r example}
 ## basic example code
 library(readbioscreen)
-path <- "inst/extdata/2014_06_06 Bioscreen growth curves.csv"
-d <- read_bioscreen(path)
-d
+file <- "inst/extdata/2014_06_06 Bioscreen growth curves.csv"
+read_bioscreen(file)
+# inconsistent formatting in test cases means you should look at all the fields:
+file <- bioscreen_example('data.csv')
+read_bioscreen(file, all_fields = TRUE)
+file <- bioscreen_example('data-2.csv')
+read_bioscreen(file, all_fields = TRUE)
 ```
 
 
@@ -55,10 +70,6 @@ More info: [1](http://www.bioscreen.fi/bioscreencmbr.html), [2](http://docs.exda
 
 ## Test set data
 
-Parser Specification defined by a test set of files:
-
-```{r}
-bioscreen_test_set()
-```
-
+Parser Specification defined by a test set of files, these are provided as 
+installed files with this pkg.
 

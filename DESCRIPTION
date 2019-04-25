@@ -7,16 +7,17 @@ Maintainer: Nicolas Coutin <nicolas.coutin@gmail.com>
 Description: Read, validate, simulate and write Bioscreen C Growth Curve 
     Analysis system. The Bioscreen C system uses two, 100 well, honeycomb 
     microplates per run instead of conventional microplates.
-License: What license is it under?
+License: GPL-3
 URL: https://github.com/npjc/readbioscreen
 BugReports: https://github.com/npjc/readbioscreen/issues
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    r2d3,
     tibble,
-    ggplot2,
     dplyr,
-    tidyr
+    tidyr,
+    rlang,
+    stringr,
+    readr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1

@@ -24,23 +24,55 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 ## basic example code
 library(readbioscreen)
-path <- "inst/extdata/2014_06_06 Bioscreen growth curves.csv"
-d <- read_bioscreen(path)
-d
+file <- "inst/extdata/2014_06_06 Bioscreen growth curves.csv"
+read_bioscreen(file)
 #> # A tibble: 193,200 x 3
-#>    Time    well     measure
-#>    <chr>   <chr>      <dbl>
-#>  1 0:00:04 Well 101   0.176
-#>  2 0:15:06 Well 101   0.171
-#>  3 0:30:06 Well 101   0.183
-#>  4 0:45:06 Well 101   0.179
-#>  5 1:00:06 Well 101   0.186
-#>  6 1:15:05 Well 101   0.19 
-#>  7 1:30:05 Well 101   0.193
-#>  8 1:45:05 Well 101   0.193
-#>  9 2:00:05 Well 101   0.191
-#> 10 2:15:05 Well 101   0.191
+#>    well     runtime measure
+#>    <chr>      <dbl>   <dbl>
+#>  1 well_101       4   0.176
+#>  2 well_101     906   0.171
+#>  3 well_101    1806   0.183
+#>  4 well_101    2706   0.179
+#>  5 well_101    3606   0.186
+#>  6 well_101    4505   0.19 
+#>  7 well_101    5405   0.193
+#>  8 well_101    6305   0.193
+#>  9 well_101    7205   0.191
+#> 10 well_101    8105   0.191
 #> # … with 193,190 more rows
+# inconsistent formatting in test cases means you should look at all the fields:
+file <- bioscreen_example('data.csv')
+read_bioscreen(file, all_fields = TRUE)
+#> # A tibble: 4,559 x 4
+#>    time  runtime well  measure
+#>    <chr>   <dbl> <chr>   <dbl>
+#>  1 0          NA 0       0.094
+#>  2 0.5        NA 0       0.094
+#>  3 1          NA 0       0.095
+#>  4 1.5        NA 0       0.095
+#>  5 2          NA 0       0.096
+#>  6 2.5        NA 0       0.097
+#>  7 3          NA 0       0.098
+#>  8 3.5        NA 0       0.099
+#>  9 4          NA 0       0.1  
+#> 10 4.5        NA 0       0.101
+#> # … with 4,549 more rows
+file <- bioscreen_example('data-2.csv')
+read_bioscreen(file, all_fields = TRUE)
+#> # A tibble: 6,205 x 6
+#>    time     runtime well  measure label  info  
+#>    <chr>      <dbl> <chr>   <dbl> <chr>  <chr> 
+#>  1 00:01:07      67 blank       0 "\"\"" "\"\""
+#>  2 00:20:06    1206 blank       0 "\"\"" "\"\""
+#>  3 00:40:06    2406 blank       0 "\"\"" "\"\""
+#>  4 01:00:06    3606 blank       0 "\"\"" "\"\""
+#>  5 01:20:06    4806 blank       0 "\"\"" "\"\""
+#>  6 01:40:06    6006 blank       0 "\"\"" "\"\""
+#>  7 02:00:06    7206 blank       0 "\"\"" "\"\""
+#>  8 02:20:06    8406 blank       0 "\"\"" "\"\""
+#>  9 02:40:06    9606 blank       0 "\"\"" "\"\""
+#> 10 03:00:06   10806 blank       0 "\"\"" "\"\""
+#> # … with 6,195 more rows
 ```
 
 ## About the Bioscreen instrument:
@@ -61,22 +93,5 @@ accompanying software:
 
 ## Test set data
 
-Parser Specification defined by a test set of files:
-
-``` r
-bioscreen_test_set()
-#> # A tibble: 28 x 1
-#>    url                                                                     
-#>    <chr>                                                                   
-#>  1 https://raw.githubusercontent.com/philipjsweet/BioscreenC-Processing/ma…
-#>  2 https://github.com/dacb/lidlab/raw/master/als/R_Shiny_Growth_Curve_App/…
-#>  3 https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth…
-#>  4 https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth…
-#>  5 https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth…
-#>  6 https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth…
-#>  7 https://raw.githubusercontent.com/ptonner/gp_growth_phenotype/master/da…
-#>  8 https://github.com/wleepang/BioscreenUtils/raw/master/data/20110908/201…
-#>  9 https://github.com/cwrussell/bioscreen/raw/master/example/data.csv      
-#> 10 https://github.com/goody-g/Growth-Curve-Analysis--ISB-/raw/master/Datab…
-#> # … with 18 more rows
-```
+Parser Specification defined by a test set of files, these are provided
+as installed files with this pkg.

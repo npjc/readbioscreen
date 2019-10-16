@@ -24,8 +24,12 @@ knitr::opts_chunk$set(
 # read_bioscreen(file, all_fields = T) %>% distinct(time, runtime) %>% tail()
 ```
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
+<!-- badges: start -->
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN status](https://www.r-pkg.org/badges/version/readbioscreen)](https://cran.r-project.org/package=readbioscreen)
+<!-- badges: end -->
+
 
 Read, Validate, Simulate and Write Bioscreen Instrument Files.
 
@@ -40,12 +44,12 @@ remotes::install.github("npjc/readbioscreen")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Parse bioscreen-formatted files into tidy data structure:
 
 ```{r example}
 ## basic example code
 library(readbioscreen)
-file <- "inst/extdata/2014_06_06 Bioscreen growth curves.csv"
+file <-  bioscreen_example('bioscreen-example1.csv')
 read_bioscreen(file)
 # inconsistent formatting in test cases means you should look at all the fields:
 file <- bioscreen_example('data.csv')
@@ -60,7 +64,7 @@ read_bioscreen(file, all_fields = TRUE)
 The Bioscreen C Microbiology Reader uses specialized 'honeycomb' plates with 100 wells, each run can contain 2 plates. 
 
 ```{r plot, eval=FALSE}
-plot_bioscreen()
+plot_bioscreen() #' not yet.
 ```
 <img src='inst/bioscreen-layout.png'>
 

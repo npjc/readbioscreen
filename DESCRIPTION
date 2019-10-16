@@ -1,7 +1,7 @@
 Package: readbioscreen
 Type: Package
 Title: Read, Validate, Simulate and Write Bioscreen Instrument Files
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: person("Nicolas", "Coutin", , "nicolas.coutin@gmail.com", c("aut", "cre"), comment = c(ORCID = "0000-0001-9336-226X"))
 Maintainer: Nicolas Coutin <nicolas.coutin@gmail.com>
 Description: Read, validate, simulate and write Bioscreen C Growth Curve 

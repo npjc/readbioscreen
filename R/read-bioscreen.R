@@ -1,6 +1,3 @@
-#' @importFrom rlang .data
-.data
-
 #' get a gp1 example data file
 #'
 #' @param file `<chr>` name of the file
@@ -46,10 +43,15 @@ read_bioscreen <- function(file, all_fields = FALSE) {
     d <- dplyr::mutate(d, runtime = time_to_runtime(.data$time))
 
 
-    d <- tidyr::gather(d, 'well', 'measure', -.data$time, -.data$runtime)
+    d <- tidyr::gather(d, 'col_name', 'measure', -.data$time, -.data$runtime)
+
+    # translate col names into plate and well vars
+    col_names <- dplyr::distinct(d, .data$col_name)
+    plate_wells <- translate_well_int(col_names$col_name)
+    d <- dplyr::left_join(d, plate_wells, by = c("col_name"))
 
     if (!all_fields) {
-        d <- dplyr::select(d, .data$well, .data$runtime, .data$measure)
+        d <- dplyr::select(d, .data$plate, .data$well, .data$runtime, .data$measure)
         return(d)
     }
 
@@ -61,8 +63,8 @@ read_bioscreen <- function(file, all_fields = FALSE) {
         label_info_tbl <- dplyr::mutate(label_info_tbl, info = header_l$infos)
 
     d <- dplyr::left_join(d, label_info_tbl, by = "well")
-    d
 
+    d
 }
 
 #' infer the header parameters of bioscreen file
@@ -122,37 +124,42 @@ time_to_runtime <- function(x) {
     (h * 3600) + (m * 60) + s
 }
 
+#' translate column names to plate and 'a01' style well notation
+#'
+#' @param x <chr> column name to translate
+#' translate_well_int(c(1,10,11,99,100,101,200,201, "well_1", "well_101"))
+#' @keywords internal
+translate_well_int <- function(v) {
+    tbl <- purrr::map_df(v, translate_well_int_one)
+    bioscreen_a01_wells <- sprintf("%s%02d", rep(LETTERS[1:10], each = 10), rep(1:10, 10))
 
-bioscreen_test_set <- function() {
-    tibble::tribble(
-        ~url,
-    'https://raw.githubusercontent.com/philipjsweet/BioscreenC-Processing/master/Bioscreen%20Example/Example_BioscreenExperimentData.csv',
-    'https://github.com/dacb/lidlab/raw/master/als/R_Shiny_Growth_Curve_App/2014_06_06%20Bioscreen%20growth%20curves.csv',
-    'https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth_Curve_App/2014_07_22%20data.csv',
-    'https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth_Curve_App/2014_07_22_tubedata.csv',
-    'https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth_Curve_App/2014_07_24%20more%203k3%20fdhfoca.csv',
-    'https://raw.githubusercontent.com/dacb/lidlab/master/als/R_Shiny_Growth_Curve_App/2014_07_24_tubedata.csv',
-    'https://raw.githubusercontent.com/ptonner/gp_growth_phenotype/master/data/example/data.csv',
-    'https://github.com/wleepang/BioscreenUtils/raw/master/data/20110908/20110908_data.csv',
-    'https://github.com/cwrussell/bioscreen/raw/master/example/data.csv',
-    'https://github.com/goody-g/Growth-Curve-Analysis--ISB-/raw/master/Database/201101271KB/ResultsKB201101271.csv',
-    'https://github.com/goody-g/Growth-Curve-Analysis--ISB-/raw/master/Database/201102171KB/ResultsKB201102171.csv',
-    'https://github.com/hezhaobin/pho/raw/45c8265998fbd8b04df5958cb4ce75014e71c680/Growth_rate_analysis/20130816_growth_rate_starvation/BioscreenExperiment20130816.csv',
-    'https://github.com/hezhaobin/pho/raw/45c8265998fbd8b04df5958cb4ce75014e71c680/Growth_rate_analysis/20130827_growth_rate_starvation/BioscreenExperiment20130827.csv',
-    'https://github.com/hezhaobin/pho/raw/45c8265998fbd8b04df5958cb4ce75014e71c680/Growth_rate_analysis/20130924_growth_rate_starvation/BioscreenExperiment20130924.csv',
-    'https://github.com/hezhaobin/pho/raw/45c8265998fbd8b04df5958cb4ce75014e71c680/Growth_rate_analysis/20131001_growth_rate_starvation/BioscreenExperiment20131001.csv',
-    'https://github.com/hezhaobin/pho/raw/45c8265998fbd8b04df5958cb4ce75014e71c680/Growth_rate_analysis/20131001_growth_rate_starvation/BioscreenExperiment20131002.csv',
-    'https://github.com/hezhaobin/pho/blob/45c8265998fbd8b04df5958cb4ce75014e71c680/Growth_rate_analysis/20131004_growth_rate_starvation/BioscreenExperiment20131004.csv',
-    'https://github.com/amyschmid/miniterm2019/raw/master/Bioscreen_data_and_analysis/20190222_miniterm_hca.csv',
-    'https://github.com/amyschmid/miniterm2019/raw/master/Bioscreen_data_and_analysis/20190222_miniterm_hca.xls',
-    'https://github.com/joey0214/GCurver/raw/master/GCurver/testData/BioscreenExperiment_10_02_15.small.csv',
-    'https://github.com/joey0214/GCurver/raw/master/GCurver/testData/BioscreenExperiment_10_02_15_all.csv',
-    'https://github.com/joey0214/GCurver/raw/master/GCurver/testData/wildstrains37deg2012_11_28.csv',
-    'https://github.com/yasab27/Yeast-Outgrowth-Data-Analyzer/raw/master/Day9.txt',
-    'https://github.com/yasab27/Yeast-Outgrowth-Data-Analyzer/raw/master/Day6.txt',
-    'https://github.com/yasab27/Yeast-Outgrowth-Data-Analyzer/raw/master/Day4.txt',
-    'https://github.com/yasab27/Yeast-Outgrowth-Data-Analyzer/raw/master/Day2.txt',
-    'https://github.com/yasab27/Yeast-Outgrowth-Data-Analyzer/raw/master/Day13.txt',
-    'https://github.com/yasab27/Yeast-Outgrowth-Data-Analyzer/raw/master/Day11.txt'
-    )
+    tbl$well <- bioscreen_a01_wells[tbl$well]
+    tbl
+}
+
+translate_well_int_one <- function(x){
+    i <- stringr::str_extract(x, "\\d+")
+    if (is.na(i) | i == '0') {
+        warning(paste("cannot translate well mapping:", x))
+        return(list(plate = NA_character_, well = NA_integer_))
+    }
+    i <- as.integer(i)
+    if (nchar(i) < 3) {
+        out <- list(plate = '0', well = i)
+    }
+    if (nchar(i) == 3) {
+        m <- stringr::str_match(i, '(\\d{1})(\\d{2})')
+        well <- as.integer(m[,3])
+        plate <- m[,2]
+        if (well == 0) {
+            plate <- as.character(as.integer(m[,2]) - 1)
+            well <- 100
+        }
+        out <- list(plate = plate, well = well)
+    }
+    if (nchar(i) > 3) {
+        warning('cannot translate well names with more than 3 int')
+        out <- list(plate = NA_character_, well = NA_integer_)
+    }
+    tibble::as_tibble(c(list(col_name = x), out))
 }

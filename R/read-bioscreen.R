@@ -131,9 +131,9 @@ time_to_runtime <- function(x) {
 #' @keywords internal
 translate_well_int <- function(v) {
     tbl <- purrr::map_df(v, translate_well_int_one)
-    bioscreen_a01_wells <- sprintf("%s%02d", rep(LETTERS[1:10], each = 10), rep(1:10, 10))
 
-    tbl$well <- bioscreen_a01_wells[tbl$well]
+
+    tbl$well <- bioscreen_a01_wells(tbl$well)
     tbl
 }
 
@@ -162,4 +162,22 @@ translate_well_int_one <- function(x){
         out <- list(plate = NA_character_, well = NA_integer_)
     }
     tibble::as_tibble(c(list(col_name = x), out))
+}
+
+bioscreen_a01_wells <- function(i) {
+    all_cells <- sprintf("%s%02d", rep(LETTERS[1:20], 10), rep(1:10, each = 20))
+    well_indices <- c(
+        seq(1, 20, by = 2),
+        seq(22, 40, by = 2),
+        seq(41, 60, by = 2),
+        seq(62, 80, by = 2),
+        seq(81, 100, by = 2),
+        seq(102, 120, by = 2),
+        seq(121, 140, by = 2),
+        seq(142, 160, by = 2),
+        seq(161, 180, by = 2),
+        seq(182, 200, by = 2)
+        )
+    wells <- all_cells[well_indices]
+    wells[i]
 }

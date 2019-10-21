@@ -165,7 +165,9 @@ translate_well_int_one <- function(x){
 }
 
 bioscreen_a01_wells <- function(i) {
-    all_cells <- sprintf("%s%02d", rep(LETTERS[1:20], 10), rep(1:10, each = 20))
+    all_cells <- sprintf("%s%02d", rep(LETTERS[1:20], 10), rep(1:10L, each = 20))
+    # hack fix for platform specific padding with zeros 'bug' with sprintf()
+    all_cells <- gsub(' ', '0', all_cells)
     well_indices <- c(
         seq(1, 20, by = 2),
         seq(22, 40, by = 2),
